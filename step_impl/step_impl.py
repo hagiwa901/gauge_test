@@ -1,6 +1,12 @@
 from getgauge.python import step, before_scenario, Messages
+import os
+from selenium import webdriver
+from selenium.webdriver import ChromeOptions
+import chromedriver_binary
 
 vowels = ["a", "e", "i", "o", "u"]
+
+driver = webdriver.Chrome()
 
 
 def number_of_vowels(word):
@@ -27,6 +33,9 @@ def assert_words_vowel_count(table):
     expected = [str(count) for count in table.get_column_values_with_name("Vowel Count")]
     assert expected == actual
 
+@step("グーグルのサイトを開くを開く")
+def assert_words_vowel_count():
+    driver.get('https://google.co.jp/')
 
 # ---------------
 # Execution Hooks

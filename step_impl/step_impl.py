@@ -1,4 +1,5 @@
 from getgauge.python import step, before_scenario, Messages
+from selenium.webdriver.common.keys import Keys
 from getgauge.python import Screenshots
 from selenium import webdriver
 from selenium.webdriver import ChromeOptions
@@ -7,7 +8,7 @@ import chromedriver_binary
 vowels = ["a", "e", "i", "o", "u"]
 
 options = ChromeOptions()
-options.add_argument("--headless")
+# options.add_argument("--headless")
 options.add_argument("--incognito")
 driver = webdriver.Chrome(options=options)
 
@@ -39,6 +40,11 @@ def assert_words_vowel_count(table):
 @step("グーグルのサイトを開く")
 def assert_words_vowel_count():
     driver.get('https://google.co.jp/')
+
+@step("検索欄に文字を入力")
+def words_input():
+    texts = driver.find_element("gLFyf")
+    texts.send_keys('mojimoji')
 
 @step("キャプションを撮る")
 def take_caption() -> None:

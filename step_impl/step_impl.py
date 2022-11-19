@@ -1,4 +1,5 @@
 from getgauge.python import step, before_scenario, Messages
+from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from getgauge.python import Screenshots
 from selenium import webdriver
@@ -42,9 +43,9 @@ def assert_words_vowel_count():
     driver.get('https://google.co.jp/')
 
 @step("検索欄に文字を入力")
-def words_input():
-    texts = driver.find_element("gLFyf")
-    texts.send_keys('mojimoji')
+def words_input() -> None:
+    # Enter "webdriver" text and perform "ENTER" keyboard action
+    driver.find_element(By.NAME, "q").send_keys("webdriver" + Keys.ENTER)
 
 @step("キャプションを撮る")
 def take_caption() -> None:

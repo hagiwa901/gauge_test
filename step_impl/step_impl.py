@@ -5,6 +5,10 @@ from getgauge.python import Screenshots
 from selenium import webdriver
 from selenium.webdriver import ChromeOptions
 import chromedriver_binary
+import os
+from uuid import uuid1
+from getgauge.python import custom_screenshot_writer
+
 
 vowels = ["a", "e", "i", "o", "u"]
 
@@ -21,6 +25,14 @@ def number_of_vowels(word):
 # --------------------------
 # Gauge step implementations
 # --------------------------
+@custom_screenshot_writer
+def take_screenshot():
+    # Use appropriate webdriver instance
+    image = driver.get_screenshot_as_png()
+    file_name = os.path.join(os.getenv("gauge_screenshots_dir"), "screenshot-{0}.png".format(uuid1().int))
+    file = open(file_name, "wb")
+    file.write(image)
+    return os.path.basename(file_name)
 
 @step("The word <word> has <number> vowels.")
 def assert_no_of_vowels_in(word, number):
@@ -42,10 +54,10 @@ def assert_words_vowel_count(table):
 def assert_words_vowel_count():
     driver.get('https://google.co.jp/')
 
-@step("検索欄に文字を入力")
-def words_input() -> None:
+@step("検索欄に<word>を入力")
+def words_input(key_word: str) -> None:
     # Enter "webdriver" text and perform "ENTER" keyboard action
-    driver.find_element(By.NAME, "q").send_keys("webdriver" + Keys.ENTER)
+    driver.find_element(By.NAME, "q").send_keys(key_word + Keys.ENTER)
 
 @step("キャプションを撮る")
 def take_caption() -> None:

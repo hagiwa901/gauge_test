@@ -57,7 +57,16 @@ def assert_words_vowel_count():
 @step("検索欄に<word>を入力")
 def words_input(key_word: str) -> None:
     # Enter "webdriver" text and perform "ENTER" keyboard action
-    driver.find_element(By.NAME, "q").send_keys(key_word + Keys.ENTER)
+    driver.find_element(By.NAME, "q").send_keys(key_word)
+
+@step("Enterキーを入力")
+def Enter_key_input() -> None:
+    driver.find_element(By.NAME, "q").send_keys(Keys.ENTER)
+ 
+@step("検索欄が<word>であることを確認")
+def find_key_word_input(key_word: str) -> None:
+    assert driver.find_element(By.NAME, "q").text == key_word
+        
 
 @step("キャプションを撮る")
 def take_caption() -> None:

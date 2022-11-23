@@ -1,4 +1,4 @@
-from getgauge.python import step, before_scenario, Messages
+from getgauge.python import step, before_scenario, after_step, Messages
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from getgauge.python import Screenshots
@@ -65,7 +65,9 @@ def Enter_key_input() -> None:
  
 @step("検索欄が<word>であることを確認")
 def find_key_word_input(key_word: str) -> None:
-    assert driver.find_element(By.NAME, "q").text == key_word
+    print("text:     ", driver.find_element(By.NAME, "q").get_attribute("value"))
+    print("key_word: ", key_word)
+    assert driver.find_element(By.NAME, "q").get_attribute("value") == key_word
         
 
 @step("キャプションを撮る")

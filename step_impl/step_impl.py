@@ -4,7 +4,6 @@ from selenium.webdriver.common.keys import Keys
 from getgauge.python import Screenshots
 from selenium import webdriver
 from selenium.webdriver import ChromeOptions
-import chromedriver_binary
 import os
 from uuid import uuid1
 from getgauge.python import custom_screenshot_writer
@@ -25,6 +24,25 @@ def number_of_vowels(word):
 # --------------------------
 # Gauge step implementations
 # --------------------------
+@step("グーグルのサイトを開く")
+def open_google() -> None:
+    driver.get('https://google.co.jp/')
+
+@step("検索欄に<word>を入力")
+def words_input(key_word: str) -> None:
+    # Enter "webdriver" text and perform "ENTER" keyboard action
+    driver.find_element(By.NAME, "q").send_keys(key_word)
+
+@step("Enterキーを入力")
+def Enter_key_input() -> None:
+    driver.find_element(By.NAME, "q").send_keys(Keys.ENTER)
+ 
+@step("検索欄が<word>であることを確認")
+def find_key_word_input(key_word: str) -> None:
+    print("text:     ", driver.find_element(By.NAME, "q").get_attribute("value"))
+    print("key_word: ", key_word)
+    assert driver.find_element(By.NAME, "q").get_attribute("value") == key_word
+
 @custom_screenshot_writer
 def take_screenshot():
     # Use appropriate webdriver instance
@@ -49,25 +67,6 @@ def assert_words_vowel_count(table):
     actual = [str(number_of_vowels(word)) for word in table.get_column_values_with_name("Word")]
     expected = [str(count) for count in table.get_column_values_with_name("Vowel Count")]
     assert expected == actual
-
-@step("グーグルのサイトを開く")
-def assert_words_vowel_count():
-    driver.get('https://google.co.jp/')
-
-@step("検索欄に<word>を入力")
-def words_input(key_word: str) -> None:
-    # Enter "webdriver" text and perform "ENTER" keyboard action
-    driver.find_element(By.NAME, "q").send_keys(key_word)
-
-@step("Enterキーを入力")
-def Enter_key_input() -> None:
-    driver.find_element(By.NAME, "q").send_keys(Keys.ENTER)
- 
-@step("検索欄が<word>であることを確認")
-def find_key_word_input(key_word: str) -> None:
-    print("text:     ", driver.find_element(By.NAME, "q").get_attribute("value"))
-    print("key_word: ", key_word)
-    assert driver.find_element(By.NAME, "q").get_attribute("value") == key_word
         
 
 @step("キャプションを撮る")

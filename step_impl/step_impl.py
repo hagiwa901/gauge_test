@@ -72,6 +72,8 @@ def assert_words_vowel_count(table):
 @step("キャプションを撮る")
 def take_caption() -> None:
     Screenshots.capture_screenshot()
+    FILENAME = os.path.join(os.path.dirname(os.path.abspath(__file__)), "image/screen.png")
+    driver.save_screenshot(FILENAME)
 
 # ---------------
 # Execution Hooks
